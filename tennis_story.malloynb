@@ -1,0 +1,16 @@
+# ATP Tennis Match Analysis
+
+## Introduction
+
+I was curious about what factors influence outcomes in professional tennis matches. Specifically, I wanted to explore whether tournament importance, playing surface, and betting odds reveal patterns about competitiveness and predictability.
+
+---
+
+## Question 1: Which surfaces are used most often?
+
+```malloy
+run: matches -> {
+  group_by: Surface
+  aggregate: match_count
+  order_by: match_count desc
+}
