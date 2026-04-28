@@ -1,0 +1,60 @@
+source: matches is duckdb.table('atp_tennis.csv') extend {
+  measure:
+    match_count is count()
+    avg_rank_1 is avg(Rank_1)
+    avg_rank_2 is avg(Rank_2)
+    avg_pts_1 is avg(Pts_1)
+    avg_pts_2 is avg(Pts_2)
+    avg_odd_1 is avg(Odd_1)
+    avg_odd_2 is avg(Odd_2)
+
+  dimension:
+    match_year is year(cast(`Date` as date))
+    rank_difference is Rank_1 - Rank_2
+    points_difference is Pts_1 - Pts_2
+}
+
+run: matches -> {
+  group_by: match_year
+  aggregate: match_count
+  order_by: match_year asc
+}
+
+run: matches -> {
+  group_by: Surface
+  aggregate: match_count
+  order_by: match_count desc
+}
+
+run: matches -> {
+  group_by: Tournament
+  aggregate: match_count
+  order_by: match_count desc
+  limit: 15
+}
+
+run: matches -> {
+  group_by: Winner
+  aggregate: match_count
+  order_by: match_count desc
+  limit: 20
+}
+
+run: matches -> {
+  group_by: match_year
+  aggregate: match_count
+  order_by: match_year asc
+}
+
+run: matches -> {
+  group_by: rank_difference
+  aggregate: match_count
+  order_by: rank_difference desc
+}
+
+run: matches -> {
+  group_by: Odd_1
+  aggregate: match_count
+  order_by: Odd_1 asc
+  limit: 20
+}
